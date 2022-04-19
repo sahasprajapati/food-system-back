@@ -18,14 +18,9 @@ export class UserController {
 
   async new(req: Request, res: Response, next: NextFunction) {
     let { username, password, role }: IUser.CreateUser = req.body;
-    const id: number = parseInt(req.params.id);
+
     // Try to save. If fails, username is already in use.
-    const responseData = await UserService.createUser(
-      id,
-      username,
-      password,
-      role
-    );
+    const responseData = await UserService.create(username, password, role);
 
     // Get user from database
     responseHandler(res, responseData);
@@ -38,14 +33,15 @@ export class UserController {
     // Get values from body
     const { username, role }: IUser.UpdateUser = req.body;
 
-    const responseData = await UserService.editUser(id, username, role);
+    const responseData = await UserService.edit(id, username, role);
 
-    responseHandler(res, responseData as IResponse.Response<void>);
+    responseHandler(res, responseData);
   }
+
   async delete(req: Request, res: Response, next: NextFunction) {
     //   Get Id from url
     const id: number = parseInt(req.params.id);
-    const responseData = await UserService.deleteUser(id); // Get user from database
+    const responseData = await UserService.delete(id); // Get user from database
 
     responseHandler(res, responseData);
   }

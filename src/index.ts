@@ -9,40 +9,6 @@ import moment from "moment";
 
 AppDataSource.initialize()
   .then(async () => {
-    type FoodTime = `${number | ""}${number}:${number}${number} ${"AM" | "PM"}`;
-
-    const st: FoodTime = "9:00 AM";
-    const s: FoodTime = "9:00 PM";
-    const et = "4:00 PM";
-    const ct = "8:00 AM";
-    const ct2 = "14:00 PM";
-
-    const sm = moment(st, "LT");
-    const em = moment(et, "LT");
-    const cm = moment(ct, "LT");
-    const cm2 = moment(ct2, "LT");
-    const cm3 = moment();
-
-    // const lt = moment("1:00 AM", "LT");
-
-    console.log("Moment", moment().format("LT"));
-    console.log("Moment", moment("1:00 AM", "LT").format("LT"));
-    console.log("Moment", moment.duration(em.diff(sm)).asHours());
-    console.log("Moment", moment.duration(em.diff(cm)).asHours());
-    console.log("Moment", moment.duration(cm.diff(em)).asHours());
-    console.log("Moment", moment.duration(cm.diff(sm)).asHours());
-
-    console.log("Moment", moment.duration(cm2.diff(em)).asHours());
-    console.log("Moment", moment.duration(cm2.diff(sm)).asHours());
-
-    console.log("Moment", moment.duration(cm3.diff(em)).asHours());
-    console.log("Moment", cm3.format("LT"));
-    console.log("Moment", moment.duration(cm3.diff(sm)).asHours());
-    // console.log(
-    //   "Moment",
-    //   moment("13:00 PM", "LT").format("LT") - moment().format("LT")
-    // );
-    // create express app
     const app = express();
 
     // call middlewares

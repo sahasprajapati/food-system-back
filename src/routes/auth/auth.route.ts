@@ -12,7 +12,7 @@ const controller = new AuthController();
 // Login
 router.post("/login", [validateBody(LoginDto)], controller.login);
 // Refresh token to generate access token
-router.post("/token", [validateBody(TokenDto)], controller.generateToken);
+router.post("/token", [validateBody(TokenDto)], controller.refreshToken);
 // Change password
 router.post(
   "/change-password",

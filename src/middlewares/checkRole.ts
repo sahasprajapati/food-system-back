@@ -14,11 +14,11 @@ export const checkRole = (roles: Array<string>) => {
     try {
       user = await userRepository.findOneByOrFail(id);
     } catch (id) {
-      res.status(401).send();
+      res.status(403).send({ error: "Forbidden Action" });
     }
 
     // Check if array of authorized roles includes the user's role
     if (roles.indexOf(user.role) > -1) next();
-    else res.status(401).send();
+    else res.status(403).send({ error: "Forbidden Action" });
   };
 };

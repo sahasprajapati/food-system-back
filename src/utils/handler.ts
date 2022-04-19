@@ -22,8 +22,13 @@ export const responseHandler = <T>(
   responseData: IResponse.Response<T>
 ) => {
   if (responseData.error) {
-    res.status(responseData.error.statusCode).send(responseData.error.message);
+    res
+      .status(responseData.error?.statusCode ?? 400)
+      .send({ error: responseData.error.message });
     return;
   }
-  res.status(responseData.success?.statusCode ?? 200).send(responseData);
+
+  res
+    .status(responseData.success?.statusCode ?? 200)
+    .send({ data: responseData.data, message: responseData.success.message });
 };

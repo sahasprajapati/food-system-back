@@ -1,146 +1,73 @@
 import { NextFunction, Request, Response } from "express";
-import { Food } from "../../entity/food/food.entity";
-import { MealType } from "../../entity/food/mealType.entity";
-import { FoodRepository } from "../../repositories/food/food.repository";
-import { MealTypeRepository } from "../../repositories/food/mealType.repository";
+import { MealTypeService } from "../../service/food/mealType.service";
+import { responseHandler } from "../../utils/handler";
 export class MealTypeController {
   async listAll(req: Request, res: Response, next: NextFunction) {
-    const mealTypeRepository = new MealTypeRepository();
-
-    const mealTypes = await mealTypeRepository.find();
-    res.send(mealTypes);
+    const responseData = await MealTypeService.listAll();
+    responseHandler(res, responseData);
   }
 
-  async getOneById(request: Request, response: Response, next: NextFunction) {
-    const mealTypeRepository = new MealTypeRepository();
+  async getOneById(req: Request, res: Response, next: NextFunction) {
+    const id: number = parseInt(req.params.id);
 
-    const id: number = parseInt(request.params.id);
+    const responseData = await MealTypeService.getOneById(id);
 
-    let mealType: MealType;
-    // Get Food from database
-    try {
-      mealType = await mealTypeRepository.findOneById(id);
-    } catch (error) {
-      response.status(404).send("Food not found");
-      return;
-    }
-    response.send(mealType);
+    responseHandler(res, responseData);
   }
 
   async addFoods(req: Request, res: Response, next: NextFunction) {
-    const foodRepository = new FoodRepository();
-    const mealTypeRepository = new MealTypeRepository();
-
     //   Get ID from url
     const id: number = parseInt(req.params.id);
 
     let { foodIds } = req.body;
+    // Try to save. If fails, username is already in use.
+    const responseData = await MealTypeService.addFoods(id, foodIds);
 
-    const mealType = await mealTypeRepository.findOneById(id);
-
-    console.log("Food Ids", foodIds);
-    const foods: Food[] = await foodRepository.findByIds(foodIds);
-    console.log("Foods:", foods);
-    mealType.foods = [...mealType.foods, ...foods];
-
-    await mealTypeRepository.save(mealType);
-
-    res.send(mealType);
+    // Get user from database
+    responseHandler(res, responseData);
   }
 
   async removeFoods(req: Request, res: Response, next: NextFunction) {
-    const foodRepository = new FoodRepository();
-    const mealTypeRepository = new MealTypeRepository();
-
     //   Get ID from url
     const id: number = parseInt(req.params.id);
 
     let { foodIds }: { foodIds: Array<number> } = req.body;
 
-    let foodType = await mealTypeRepository.findOneById(id);
+    // Try to save. If fails, username is already in use.
+    const responseData = await MealTypeService.removeFoods(id, foodIds);
 
-    console.log("Food Ids", foodIds);
-
-    foodType.foods = foodType.foods.filter(
-      (food) => !foodIds.includes(food.id)
-    );
-
-    await mealTypeRepository.save(foodType);
-
-    res.send(foodType);
+    // Get user from database
+    responseHandler(res, responseData);
   }
-  async new(req: Request, res: Response, next: NextFunction) {
-    const mealTypeRepository = new MealTypeRepository();
 
+  async new(req: Request, res: Response, next: NextFunction) {
     // Get parameters from body
     let { name } = req.body;
 
-    let mealType = new MealType();
-    mealType.name = name;
+    // Try to save. If fails, username is already in use.
+    const responseData = await MealTypeService.create(name);
 
-    // Try to save. If fails, Foodname is already in use.
-    try {
-      await mealTypeRepository.save(mealType);
-    } catch (error) {
-      console.error(error);
-      // Conflict with server state
-      res.status(409).send("Foodname already in use.");
-      return;
-    }
-
-    // If all ok, send 201 response
-    res.status(201).send("Food created");
+    // Get user from database
+    responseHandler(res, responseData);
   }
 
   async edit(req: Request, res: Response, next: NextFunction) {
-    const mealTypeRepository = new MealTypeRepository();
-
     //   Get ID from url
     const id: number = parseInt(req.params.id);
 
     // Get values from body
     const { name } = req.body;
 
-    // Try to find Food on database
-    let mealType: MealType;
-    try {
-      mealType = await mealTypeRepository.findOneById(id);
-    } catch (error) {
-      res.status(404).send("Food not found");
-      return;
-    }
+    const responseData = await MealTypeService.edit(id, name);
 
-    // Validate new values on model
-    mealType.name = name;
-
-    // Safe guard against, existing Foodname
-    try {
-      await mealTypeRepository.save(mealType);
-    } catch (error) {
-      res.status(409).send("Food name already in use");
-      return;
-    }
-
-    // After all send a 204 (no content, but accepted) response
-    res.status(204).send();
+    responseHandler(res, responseData as IResponse.Response<void>);
   }
 
   async delete(req: Request, res: Response, next: NextFunction) {
-    const mealTypeRepository = new MealTypeRepository();
-
     //   Get Id from url
     const id: number = parseInt(req.params.id);
+    const responseData = await MealTypeService.delete(id); // Get user from database
 
-    let mealType: MealType;
-    try {
-      mealType = await mealTypeRepository.findOneById(id);
-    } catch (error) {
-      res.status(404).send("Food not found");
-      return;
-    }
-    mealTypeRepository.delete(id);
-
-    // After all send a 204 response
-    res.status(204).send();
+    responseHandler(res, responseData);
   }
 }

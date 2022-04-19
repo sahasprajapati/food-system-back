@@ -17,11 +17,10 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     res.locals.jwtPayload = jwtPayload;
   } catch (error) {
     // If token not valid, response with 401(unauthorized)
-    console.error(error);
-    res.status(401).send();
+    // console.error(error);
+    res.status(401).send({ error: "Invalid Credential" });
     return;
   }
-  console.log(jwtPayload);
 
   // Token validity: 1hour
   // Send new token on every request

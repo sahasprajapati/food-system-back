@@ -1,6 +1,6 @@
 declare namespace IResponse {
   interface Message {
-    statusCode: number;
+    statusCode?: number;
     message: string;
   }
   interface Response<T> {
