@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { FoodTypeController } from "../../controller/food/foodType.controller";
-import { CreateFoodTypeDto } from "../../dto/foodType/createFoodType.dto";
-import { EditFoodTypeDto } from "../../dto/foodType/editFoodType.dto";
-import { FoodToFoodType } from "../../dto/foodType/foodToFoodType.dto";
+import { CreateFoodTypeDto } from "../../dto/food/foodType/createFoodType.dto";
+import { EditFoodTypeDto } from "../../dto/food/foodType/editFoodType.dto";
+import { FoodToFoodType } from "../../dto/food/foodType/foodToFoodType.dto";
 import { checkJwt } from "../../middlewares/checkJwt";
 import { checkRole } from "../../middlewares/checkRole";
 import { validateBody } from "../../middlewares/validateBody";

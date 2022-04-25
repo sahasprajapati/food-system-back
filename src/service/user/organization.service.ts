@@ -1,44 +1,46 @@
-import { Profile } from "../../entity/user/profile.entity";
-import { ProfileRepository } from "../../repositories/user/profile.repository";
+import { Organization } from "../../entity/user/organization.entity";
+import { OrganizationRepository } from "../../repositories/user/organization.repository";
 import { formatResponse } from "../../utils/handler";
 
-export class ProfileService {
-  static repository = new ProfileRepository();
+export class OrganizationService {
+  static repository = new OrganizationRepository();
 
-  static async listAll(): Promise<IResponse.Response<Array<Profile>>> {
+  static async listAll(): Promise<IResponse.Response<Array<Organization>>> {
     const res = formatResponse(
       this.repository.find(),
-      { statusCode: 401, message: "Error while fetching order" },
-      { statusCode: 200, message: "Profiles fetched successfully" }
+      { statusCode: 401, message: "Error while fetching organization" },
+      { statusCode: 200, message: "Organization fetched successfully" }
     );
 
     return res;
   }
 
-  static async getOneById(id: number): Promise<IResponse.Response<Profile>> {
+  static async getOneById(
+    id: number
+  ): Promise<IResponse.Response<Organization>> {
     const res = formatResponse(
       this.repository.findOneById(id),
-      { statusCode: 401, message: "Error while fetching order" },
-      { statusCode: 200, message: "Profile fetched successfully" }
+      { statusCode: 401, message: "Error while fetching organization" },
+      { statusCode: 200, message: "Organization fetched successfully" }
     );
     return res;
   }
 
   static async create(
     name: string,
-    email: string
+    creditLimit: number
   ): Promise<IResponse.Response<void>> {
     // Get parameters from body
-    const profile = new Profile();
+    const profile = new Organization();
 
     profile.name = name;
-    profile.email = email;
+    profile.creditLimit = creditLimit;
 
     // If all ok, send 201 response
     const res = formatResponse(
       this.repository.save(profile),
       { statusCode: 409, message: "Error while creating profile" },
-      { statusCode: 201, message: "Profile saved successfully" }
+      { statusCode: 201, message: "Organization saved successfully" }
     );
 
     return res;
@@ -49,22 +51,22 @@ export class ProfileService {
       this.repository.delete(id),
       {
         statusCode: 404,
-        message: "Profile not found",
+        message: "Organization not found",
       },
-      { statusCode: 200, message: "Profile deleted succesfully" }
+      { statusCode: 200, message: "Organization deleted succesfully" }
     );
     return response;
   }
   static async edit(
     id: number,
     name: string,
-    email: string
+    creditLimit: number
   ): Promise<IResponse.Response<void>> {
     let profileResponse = await formatResponse(
       this.repository.findOneById(id),
       {
         statusCode: 401,
-        message: "Error while fetching user",
+        message: "Error while fetching profile",
       }
     );
     // If error return
@@ -74,12 +76,12 @@ export class ProfileService {
 
     const profile = profileResponse.data;
     profile.name = name;
-    profile.email = email;
+    profile.creditLimit = creditLimit;
 
     const response = formatResponse(
       this.repository.save(profile),
       { statusCode: 409, message: "Error while editing profile" },
-      { statusCode: 200, message: "Profile edited successfully" }
+      { statusCode: 200, message: "Organization edited successfully" }
     );
 
     return response;

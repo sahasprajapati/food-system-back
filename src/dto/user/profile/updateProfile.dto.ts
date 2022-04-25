@@ -1,5 +1,5 @@
 import { Expose } from "class-transformer";
 import { IsDefined, Matches } from "class-validator";
-import { UserDto } from "./user.dto";
+import { ProfileDto } from "./profile.dto";
 
-export class EditUserDto extends UserDto {}
+export class UpdateProfileDto extends ProfileDto {}

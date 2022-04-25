@@ -11,7 +11,8 @@
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/data-source.ts",
     "migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -d ./src/data-source.ts",
-    "migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create"
+    "migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create",
+    "er": "ts-node -r tsconfig-paths/register ./node_modules/.bin/erdia er -p ./src/data-source.ts"
   },
   "author": "",
   "license": "ISC",
@@ -30,6 +31,7 @@
     "rand-token": "^1.0.1",
     "reflect-metadata": "^0.1.13",
     "ts-node-dev": "^1.1.8",
+    "tsconfig-paths": "^3.14.1",
     "typeorm": "0.3.6"
   },
   "devDependencies": {

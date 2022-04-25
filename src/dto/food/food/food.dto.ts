@@ -5,9 +5,11 @@ export class FoodDto {
   @IsDefined()
   @Expose()
   name: string;
+
   @IsDefined()
   @Expose()
   description: string;
+
   @IsDefined()
   @Expose()
   price: number;

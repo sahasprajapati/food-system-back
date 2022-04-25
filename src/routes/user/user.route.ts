@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { UserController } from "../../controller/user/user.controller";
-import { CreateUserDto } from "../../dto/user/createUser.dto";
-import { EditUserDto } from "../../dto/user/editUser.dto";
+import { CreateUserDto } from "../../dto/user/user/createUser.dto";
+import { UpdateUserDto } from "../../dto/user/user/updateUser.dto";
 import { checkJwt } from "../../middlewares/checkJwt";
 import { checkRole } from "../../middlewares/checkRole";
 import { validateBody } from "../../middlewares/validateBody";
@@ -25,7 +25,7 @@ router.post(
 // Edit User
 router.patch(
   "/:id([0-9])+",
-  [checkJwt, checkRole(["admin"]), validateBody(EditUserDto)],
+  [checkJwt, checkRole(["admin"]), validateBody(UpdateUserDto)],
   controller.edit
 );
 // Delete User

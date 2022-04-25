@@ -7,10 +7,12 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  ManyToOne,
 } from "typeorm";
 import * as bcrypt from "bcryptjs";
 import { Profile } from "./profile.entity";
 import { Auth } from "../auth/auth.entity";
+import { Organization } from "./organization.entity";
 
 @Entity()
 export class User {
@@ -38,6 +40,9 @@ export class User {
   @OneToOne((type) => Profile, { cascade: true })
   @JoinColumn()
   profile: Profile;
+
+  @ManyToOne(() => Organization, (organization) => organization.users)
+  organization: Organization;
 
   @Column()
   @CreateDateColumn()

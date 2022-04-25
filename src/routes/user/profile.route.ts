@@ -1,38 +1,38 @@
 import { Router } from "express";
-import { FoodController } from "../../controller/food/food.controller";
-import { CreateFoodDto } from "../../dto/food/food/createFood.dto";
-import { EditFoodDto } from "../../dto/food/food/editFood.dto";
+import { ProfileController } from "../../controller/user/profile.controller";
+import { CreateProfileDto } from "../../dto/user/profile/createProfile.dto";
+import { UpdateProfileDto } from "../../dto/user/profile/updateProfile.dto";
 import { checkJwt } from "../../middlewares/checkJwt";
 import { checkRole } from "../../middlewares/checkRole";
 import { validateBody } from "../../middlewares/validateBody";
 
 const router = Router();
-
-const controller = new FoodController();
-// List all food
+const controller = new ProfileController();
+// List All Users
 router.get("/", [checkJwt, checkRole(["admin"])], controller.listAll);
-// Get one food by id
+// Get User By Id
 router.get(
   "/:id([0-9])+",
   [checkJwt, checkRole(["admin"])],
   controller.getOneById
 );
-// Create new food
+// Create User
 router.post(
   "/",
-  [checkJwt, checkRole(["admin"]), validateBody(CreateFoodDto)],
+  [checkJwt, checkRole(["admin"]), validateBody(CreateProfileDto)],
   controller.new
 );
-// Edit food
+// Edit User
 router.patch(
   "/:id([0-9])+",
-  [checkJwt, checkRole(["admin"]), validateBody(EditFoodDto)],
+  [checkJwt, checkRole(["admin"]), validateBody(UpdateProfileDto)],
   controller.edit
 );
-// Delete food
+// Delete User
 router.delete(
   "/:id([0-9])+",
   [checkJwt, checkRole(["admin"])],
   controller.delete
 );
+
 export default router;

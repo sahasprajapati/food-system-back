@@ -5,7 +5,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
 } from "typeorm";
+import { Expense } from "../order/expense.entity";
 
 @Entity()
 export class Profile {
@@ -18,8 +21,9 @@ export class Profile {
   @Column({ unique: true })
   email: string;
 
-  @Column()
-  expense: number;
+  @OneToOne(() => Expense)
+  @JoinColumn()
+  expense: Expense;
 
   @Column()
   @CreateDateColumn()
