@@ -27,7 +27,7 @@
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.2",
-    "pg": "^8.4.0",
+    "pg": "^8.9.0",
     "rand-token": "^1.0.1",
     "reflect-metadata": "^0.1.13",
     "ts-node-dev": "^1.1.8",
