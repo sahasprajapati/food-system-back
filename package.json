@@ -32,7 +32,7 @@
     "reflect-metadata": "^0.1.13",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.14.1",
-    "typeorm": "0.3.6"
+    "typeorm": "0.3.18"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
